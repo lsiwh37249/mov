@@ -2,6 +2,9 @@ import requests
 import os
 import pandas as pd
 
+def echo(yaho):
+    return yaho
+
 def save2df(load_dt='20120101'):
     df = list2df(load_dt)
     #df에 load_dt 칼럼 추가( 조회 일자 YYYYMMDD 형식으로)
