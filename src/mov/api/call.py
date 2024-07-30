@@ -1,9 +1,14 @@
 import requests
 import os
 import pandas as pd
+                                                                                                                                                                    
 
 def echo(yaho):
     return yaho
+
+def apply_type2df(load_dt="20120101", path="~/tmp/test_parquet"):
+    df = pd.read_parquet(f'{path}/load_dt={laod_dt}')
+    return df
 
 def save2df(load_dt='20120101'):
     df = list2df(load_dt)
