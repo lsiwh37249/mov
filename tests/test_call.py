@@ -54,6 +54,7 @@ def test_비밀키숨기기():
     assert key
 
 
+
 def test_유알엘테스트():
     url = gen_url()
     assert "http" in url
