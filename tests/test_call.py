@@ -14,7 +14,7 @@ def test_apply_type2df():
     
     for c in num_cols:
         assert df[c].dtype in ['int64', 'float64']
-    
+     
 
 def test_echo():
     print(echo("yaho"))
@@ -26,6 +26,9 @@ def test_save2df():
     assert isinstance(df, pd.DataFrame)
     assert 'load_dt' in df.columns
     
+    df = save2df(load_dt='20241231',url_param={"multiMovieYn" : "N"})
+    assert isinstance(df, pd.DataFrame)
+
 
 def test_list2df():
     df = list2df(load_dt='20120101')
@@ -35,6 +38,9 @@ def test_list2df():
     assert 'openDt' in df.columns
     assert 'movieNm' in df.columns
     assert 'audiAcc' in df.columns
+
+    df = list2df(load_dt='20120101',url_param={"multiMovieYn" : "N"})
+    assert isinstance(df, pd.DataFrame)
 
 def test_req2list():
     l = req2list()

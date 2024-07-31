@@ -34,8 +34,8 @@ def save_data(ds_nodash):
     sum_df = g.agg({'audiCnt' : 'sum'}).reset_index()
     print(sum_df)
 
-def save2df(load_dt="20120101", url_param={"ABC" : 1, "DEF" : 2}):
-    df = list2df(load_dt)
+def save2df(load_dt="20120101", url_param = {"multiMovieYn" : "N"}):
+    df = list2df(load_dt, url_param)
     #df에 load_dt 칼럼 추가( 조회 일자 YYYYMMDD 형식으로)
     #df['load_dt'] = pd.Timestamp(df['load_dt'], str
     df['load_dt'] = load_dt
@@ -44,13 +44,13 @@ def save2df(load_dt="20120101", url_param={"ABC" : 1, "DEF" : 2}):
     df.to_parquet('~/tmp/test_parquet', partition_cols=['load_dt'])
     return df
 
-def list2df(load_dt="20120101"):
-    l = req2list(load_dt)
+def list2df(load_dt="20120101", url_param = {"multiMovieYn" : "N"}):
+    l = req2list(load_dt, url_param)
     df = pd.DataFrame(l)
     return df
 
-def req2list(load_dt="20120101") -> list:
-    _, data = req()
+def req2list(load_dt="20120101",  url_param = {"multiMovieYn" : "N"}) -> list:
+    _, data = req(url_param)
     l = data['boxOfficeResult']['dailyBoxOfficeList']
     return l
 
@@ -58,9 +58,9 @@ def get_key():
     key = os.getenv('MOVIE_API_KEY')
     return key
 
-def req(load_dt="20120101"):
+def req(load_dt="20120101", url_param = {"multiMovieYn" : "N"}):
     #url = gen_url('20240720')
-    url = gen_url(load_dt)
+    url = gen_url(load_dt, url_param)
     r = requests.get(url)
     code = r.status_code
     data = r.json()
@@ -68,11 +68,11 @@ def req(load_dt="20120101"):
     return code, data
 
 
-def gen_url(dt="20120101", req_val = {"multiMovieYn" : "N"}):
+def gen_url(dt="20120101", url_param = {"multiMovieYn" : "N"}):
     base_url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
     key = get_key()
     url = f"{base_url}?key={key}&targetDt={dt}"
-    for k, v in req_val.items():
+    for k, v in url_param.items():
         url = url + f"&{k}={v}"
 
     return url
