@@ -22,11 +22,11 @@ def test_echo():
     #assert echo("yaho") == "yaho"
 
 def test_save2df():
-    df = save2df(load_dt='20241231')
+    df = save2df(load_dt='20120101')
     assert isinstance(df, pd.DataFrame)
     assert 'load_dt' in df.columns
     
-    df = save2df(load_dt='20241231',url_param={"multiMovieYn" : "N"})
+    df = save2df(load_dt='20120101',url_param={"multiMovieYn" : "N"})
     assert isinstance(df, pd.DataFrame)
 
 
@@ -39,7 +39,7 @@ def test_list2df():
     assert 'movieNm' in df.columns
     assert 'audiAcc' in df.columns
 
-    df = list2df(load_dt='20120101',url_param={"multiMovieYn" : "N"})
+    df = list2df(load_dt='20120101', url_param={"multiMovieYn" : "N"})
     assert isinstance(df, pd.DataFrame)
 
 def test_req2list():
@@ -61,7 +61,7 @@ def test_유알엘테스트():
     assert "kobis" in url
     
     d = {"multiMovieYn" : "N"}
-    url = gen_url(req_val=d)
+    url = gen_url(url_param = d)
     assert "multiMovieYn" in url
 
 
