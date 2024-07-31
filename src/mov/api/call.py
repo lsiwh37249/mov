@@ -1,16 +1,40 @@
 import requests
 import os
 import pandas as pd
-                                                                                                                                                                    
-
+                                                                            
 def echo(yaho):
     return yaho
 
 def apply_type2df(load_dt="20120101", path="~/tmp/test_parquet"):
-    df = pd.read_parquet(f'{path}/load_dt={laod_dt}')
+    df = pd.read_parquet(f'{path}/load_dt={load_dt}')
+    df['rnum'] = pd.to_numeric(df['rnum'])
+    df['rank'] = pd.to_numeric(df['rank'])
+    num_cols = ['rnum', 'rank', 'rankInten', 'salesAmt', 'audiCnt',  
+                'audiAcc', 'scrnCnt', 'showCnt', 'salesShare', 'salesInten', 
+                'salesChange', 'audiInten', 'audiChange']
+    for c in num_cols:
+        df[c] = pd.to_numeric(df[c])
+        
+    #df[num_cols] = df[num_cols].apply(pd.to_numeric)    
     return df
 
-def save2df(load_dt='20120101'):
+def save_data(ds_nodash):
+    from mov.api.call import apply_type2df
+
+    df = apply_type2df(load_dt=ds_nodash)
+
+    print("*" * 33)
+    print(df.head(10))
+    print("*" * 33)
+    
+    print(df.dtypes)
+
+    # 개봉일 기준 그룹핑 누적 관객수 합
+    g = df.groupby('openDt')
+    sum_df = g.agg({'audiCnt' : 'sum'}).reset_index()
+    print(sum_df)
+
+def save2df(load_dt="20120101"):
     df = list2df(load_dt)
     #df에 load_dt 칼럼 추가( 조회 일자 YYYYMMDD 형식으로)
     #df['load_dt'] = pd.Timestamp(df['load_dt'], str
@@ -20,12 +44,12 @@ def save2df(load_dt='20120101'):
     df.to_parquet('~/tmp/test_parquet', partition_cols=['load_dt'])
     return df
 
-def list2df(load_dt='20120101'):
+def list2df(load_dt="20120101"):
     l = req2list(load_dt)
     df = pd.DataFrame(l)
     return df
 
-def req2list(load_dt='20120101') -> list:
+def req2list(load_dt="20120101") -> list:
     _, data = req()
     l = data['boxOfficeResult']['dailyBoxOfficeList']
     return l
