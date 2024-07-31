@@ -52,6 +52,11 @@ def test_유알엘테스트():
     url = gen_url()
     assert "http" in url
     assert "kobis" in url
+    
+    d = {"multiMovieYn" : "N"}
+    url = gen_url(req_val=d)
+    assert "multiMovieYn" in url
+
 
 def test_req():
     code, data = req()

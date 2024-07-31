@@ -34,7 +34,7 @@ def save_data(ds_nodash):
     sum_df = g.agg({'audiCnt' : 'sum'}).reset_index()
     print(sum_df)
 
-def save2df(load_dt="20120101"):
+def save2df(load_dt="20120101", url_param={"ABC" : 1, "DEF" : 2}):
     df = list2df(load_dt)
     #df에 load_dt 칼럼 추가( 조회 일자 YYYYMMDD 형식으로)
     #df['load_dt'] = pd.Timestamp(df['load_dt'], str
@@ -68,9 +68,11 @@ def req(load_dt="20120101"):
     return code, data
 
 
-def gen_url(dt="20120101"):
+def gen_url(dt="20120101", req_val = {"multiMovieYn" : "N"}):
     base_url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
     key = get_key()
     url = f"{base_url}?key={key}&targetDt={dt}"
+    for k, v in req_val.items():
+        url = url + f"&{k}={v}"
 
     return url
