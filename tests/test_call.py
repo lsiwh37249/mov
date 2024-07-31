@@ -29,7 +29,6 @@ def test_save2df():
     df = save2df(load_dt='20120101',url_param={"multiMovieYn" : "N"})
     assert isinstance(df, pd.DataFrame)
 
-
 def test_list2df():
     df = list2df(load_dt='20120101')
     print(df)
