@@ -1,7 +1,9 @@
 import requests
 import os
 import pandas as pd
-                                                                            
+
+
+
 def echo(yaho):
     return yaho
 
@@ -74,4 +76,5 @@ def gen_url(dt="20120101", url_param = { }):
     url = f"{base_url}?key={key}&targetDt={dt}"
     for k, v in url_param.items():
         url = url + f"&{k}={v}"
+
     return url
