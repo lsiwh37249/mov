@@ -37,7 +37,7 @@ def save_data(ds_nodash):
     print(sum_df)
 
 def save2df(load_dt="20120101", url_param = { }):
-    df = list2df(load_dt=load_dt, url_param=url_param)
+    df = list2df(url_param=url_param,load_dt=load_dt)
     #df에 load_dt 칼럼 추가( 조회 일자 YYYYMMDD 형식으로)
     #df['load_dt'] = pd.Timestamp(df['load_dt'], str
     df['load_dt'] = load_dt
